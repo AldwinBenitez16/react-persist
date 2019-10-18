@@ -1,8 +1,8 @@
 import * as ActionTypes from './actiontypes';
 
-export function updateUser(name) {
+export function updateUser(data) {
     return {
         type: ActionTypes.UPDATE_USER,
-        name
+        data
     };
 }
