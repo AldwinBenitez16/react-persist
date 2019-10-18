@@ -17,17 +17,17 @@ class Persist extends React.Component {
 
   getUser = () => {
     const { username } =  this.props;
-    console.log(username);
   }
 
   render() {
+    const { username } = this.props;
     return (
       <div className="App">
+      <h1><b>{'Current User: '}</b>{username.toUpperCase()}</h1>
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <input type='text' ref={this.userRef} />
           <button type='submit' >Submit</button>
         </form>
-        <button onClick={() => this.getUser()}>Current Username</button>
       </div>
     );
   }
