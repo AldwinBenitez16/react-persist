@@ -1,14 +1,17 @@
+// Imports
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Persist from './Persist';
 import * as serviceWorker from './serviceWorker';
 
-// Root Reducer
-import RootReducer from './Store/store';
-import { createStore } from 'redux';
-
-// Provider from react redux
+import { RootReducer } from './Store/store';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+
+import persistedReducer from './Store/persistor';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 
 function saveToLocalStorage(state) {
     try {
@@ -30,15 +33,20 @@ function loadFromLocalStorage() {
     }
 }
 
+const middleware = [thunk];
+
 // Persisted State Using Own Functions
 // const persistedState = loadFromLocalStorage();
 // const store = createStore(RootReducer, persistedState);
 
-const store = createStore(RootReducer);
+const store = createStore(persistedReducer, applyMiddleware(...middleware));
+let persistor = persistStore(store);
 
 ReactDOM.render(
     <Provider store={store}>
-        <Persist />
+        <PersistGate loading={null} persistor={persistor} >
+            <Persist />
+        </PersistGate>
     </Provider>
 , document.getElementById('root'));
 
