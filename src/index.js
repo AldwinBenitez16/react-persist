@@ -30,9 +30,11 @@ function loadFromLocalStorage() {
     }
 }
 
-const persistedState = loadFromLocalStorage();
+// Persisted State Using Own Functions
+// const persistedState = loadFromLocalStorage();
+// const store = createStore(RootReducer, persistedState);
 
-const store = createStore(RootReducer, persistedState);
+const store = createStore(RootReducer);
 
 ReactDOM.render(
     <Provider store={store}>
@@ -40,7 +42,9 @@ ReactDOM.render(
     </Provider>
 , document.getElementById('root'));
 
-store.subscribe(() => saveToLocalStorage(store.getState()));
+localStorage.removeItem('state');
+
+// store.subscribe(() => saveToLocalStorage(store.getState()));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
