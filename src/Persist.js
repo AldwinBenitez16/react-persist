@@ -5,24 +5,25 @@ import {bindActionCreators} from 'redux';
 
 let listRef = React.createRef();
 
-const addUser = (e, setList) => {
+const addUser = (e, list, setList) => {
   e.preventDefault();
   let todo = listRef.current.value;
+  setList([...list, todo]);
 } 
 
 function Todo() {
   const [list, setList] = useState([]);
   return (
     <div className='list-container'>
-      <ul className='list' >
-        {list.map((currList, index) => (
-          <li key={index} index={index} list={currList} ></li>
-        ))}
-      </ul>
-      <form className='list-form' onSubmit={ (e) => addUser(e, setList) }>
+      <form className='list-form' onSubmit={ (e) => addUser(e, list, setList) }>
           <input ref={listRef} type='text' />
           <button type='submit' >Add Todo</button>
       </form>
+      <ul className='list' >
+        {list.map((currList, index) => (
+          <li key={index} index={index} list={currList} >{list[index]}</li>
+        ))}
+      </ul>
     </div>
   )
 }
