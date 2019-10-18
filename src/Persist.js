@@ -18,6 +18,12 @@ const isComplete = (index, list, setList) => {
   setList(newTodos);
 }
 
+const removeUser = (index, list, setList) => {
+  const newTodos = [...list];
+  newTodos.splice(index, 1);
+  setList(newTodos);
+}
+
 function Todo() {
   const [list, setList] = useState([]);
   return (
