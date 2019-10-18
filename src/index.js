@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Persist from './Persist';
 import * as serviceWorker from './serviceWorker';
 
 // Root Reducer
@@ -14,7 +14,7 @@ const store = createStore(RootReducer);
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <Persist />
     </Provider>
 , document.getElementById('root'));
 

@@ -1,25 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from './Store/actions';
-
+import * as Actions from './Store/actions';
+import {bindActionCreators} from 'redux';
 
 class Persist extends React.Component {
   
   userRef = React.createRef();
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
     const { updateUser } = this.props;
     const name = this.userRef.current.value;
     updateUser(name);
+    this.userRef.current.value = '';
     console.log(this.props.username);
+  }
+
+  getUser = () => {
+    const { username } =  this.props;
+    console.log(username);
   }
 
   render() {
     return (
       <div className="App">
-        <form onSubmit={this.handleSubmit()}>
+        <form onSubmit={(e) => this.handleSubmit(e)}>
           <input type='text' ref={this.userRef} />
           <button type='submit' >Submit</button>
         </form>
+        <button onClick={() => this.getUser()}>Current Username</button>
       </div>
     );
   }
@@ -31,8 +39,8 @@ const mapStateToProps = (state) => ({
 })
 
 // allows us to access store actions
-const mapDispatchToProps = (dispatch) => ({
-    updateUser: updateUser
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    updateUser: Actions.updateUser
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Persist);
