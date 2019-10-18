@@ -7,9 +7,16 @@ let listRef = React.createRef();
 
 const addUser = (e, list, setList) => {
   e.preventDefault();
-  let todo = listRef.current.value;
+  let todo = {text: listRef.current.value, isCompleted: false};
   setList([...list, todo]);
+  listRef.current.value = '';
 } 
+
+const isComplete = (index, list, setList) => {
+  const newTodos = [...list]; 
+  newTodos[index].isCompleted = true;
+  setList(newTodos);
+}
 
 function Todo() {
   const [list, setList] = useState([]);
@@ -21,7 +28,7 @@ function Todo() {
       </form>
       <ul className='list' >
         {list.map((currList, index) => (
-          <li key={index} index={index} list={currList} >{list[index]}</li>
+          <li key={index} index={index} style={{textDecoration: currList.isCompleted ? 'line-through' : ''}} list={currList.text} >{currList.text} <button onClick={ () => isComplete(index, list, setList) }>Completed</button> <button onClick={ () => removeUser(index, list, setList) }>X</button></li>
         ))}
       </ul>
     </div>
