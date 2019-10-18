@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux';
+import { updateUser } from './Store/actions';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class Persist extends React.Component {
+  
+  userRef = React.createRef();
+  handleSubmit = () => {
+    const { updateUser } = this.props;
+    const name = this.userRef.current.value;
+    updateUser(name);
+    console.log(this.props.username);
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <form onSubmit={this.handleSubmit()}>
+          <input type='text' ref={this.userRef} />
+          <button type='submit' >Submit</button>
+        </form>
+      </div>
+    );
+  }
 }
 
-export default App;
+// Allows us to turn the state to props
+const mapStateToProps = (state) => ({
+    username: state.username
+})
+
+// allows us to access store actions
+const mapDispatchToProps = (dispatch) => ({
+    updateUser: updateUser
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Persist);
+
